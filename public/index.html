@@ -31,7 +31,7 @@
 
             // Send a request to the backend to fetch the classroom
             try {
-                let response = await fetch(`http://localhost:8000/classroom/${rollNumber}`);                
+                let response = await fetch(`/classroom/${rollNumber}`);                
                 // If the request is not successful, throw an error
                 if (!response.ok) {
                     throw new Error('Roll number not found');
