@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom Finder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Classroom Finder</h1>
+    
+    <!-- Input field for the roll number -->
+    <input type="text" id="rollNumber" placeholder="Enter Roll Number" />
+    
+    <!-- Button to trigger the search -->
+    <button id="findClassroom">Find Classroom</button>
+    
+    <!-- Div to display the result -->
+    <div id="result"></div>
+
+    <!-- JavaScript to handle frontend logic -->
+    <script>
+        // Add an event listener to the button click
+        document.getElementById('findClassroom').addEventListener('click', async () => {
+            // Get the roll number from the input field
+            const rollNumber = document.getElementById('rollNumber').value;
+            const resultDiv = document.getElementById('result');
+
+            // Clear any previous results
+            resultDiv.innerHTML = '';
+
+            // Send a request to the backend to fetch the classroom
+            try {
+                let response = await fetch(`http://localhost:8000/classroom/${rollNumber}`);                
+                // If the request is not successful, throw an error
+                if (!response.ok) {
+                    throw new Error('Roll number not found');
+                }
+
+                // Parse the JSON response
+                const data = await response.json();
+
+                // Display the classroom result in the result div
+                resultDiv.innerHTML = `<p>Roll Number: ${data.RollNumber}, Classroom: ${data.Classroom}</p>`;
+            } catch (error) {
+                // Handle errors (e.g., roll number not found)
+                resultDiv.innerHTML = `<p style="color: red;">${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
